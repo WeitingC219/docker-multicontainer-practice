@@ -4,3 +4,21 @@ services:
 
 before_install:
   - docker build -t weitingc219/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true weitingc219/react-test npm test
+
+after_success:
+  - docker build -t weitingc219/multi-client ./client
+  - docker build -t weitingc219/multi-nginx ./nginx
+  - docker build -t weitingc219/multi-server ./server
+  - docker build -t weitingc219/multi-worker ./worker
+  # Log in to the Docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push weitingc219/multi-client
+  - docker push weitingc219/multi-nginx
+  - docker push weitingc219/multi-server
+  - docker push weitingc219/multi-worker
+
+language: generic
