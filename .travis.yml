@@ -1,0 +1,6 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t weitingc219/react-test -f ./client/Dockerfile.dev ./client
