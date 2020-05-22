@@ -22,3 +22,16 @@ after_success:
   - docker push weitingc219/multi-worker
 
 language: generic
+
+deploy:
+  edge: true
+  provider: elasticbeanstalk
+  region: ap-northeast-1
+  app: DockerMultiContainerPractice
+  env: Dockermulticontainerpractice-env
+  bucket_name: elasticbeanstalk-ap-northeast-1-557655015345
+  bucket_path: DockerMultiContainerPractice
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
